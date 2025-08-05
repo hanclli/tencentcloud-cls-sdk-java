@@ -8,7 +8,7 @@ import com.tencent.polaris.factory.api.DiscoveryAPIFactory;
 
 public class PolarisInstance {
 
-    private static final ConsumerAPI consumerAPI = DiscoveryAPIFactory.createConsumerAPI();
+    private static  ConsumerAPI consumerAPI = DiscoveryAPIFactory.createConsumerAPI();
 
     /**
      * 获取Polaris实例
@@ -23,5 +23,13 @@ public class PolarisInstance {
             throw new RuntimeException("获取Polaris实例失败");
         }
         return instances[0];
+    }
+
+    /**
+     * 等到不再获取polaris实例之后再退出，如果不退出就会有线程一直执行
+     */
+    public static void exit() {
+        consumerAPI.destroy();
+        consumerAPI = null;
     }
 }
